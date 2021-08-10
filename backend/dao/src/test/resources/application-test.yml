@@ -1,0 +1,21 @@
+# Режим отладки
+debug: true
+
+spring:
+  # DB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/human_resources
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  # JPA
+  jpa:
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+    hibernate:
+      ddl-auto: validate

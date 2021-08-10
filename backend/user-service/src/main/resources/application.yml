@@ -1,0 +1,49 @@
+# Свойства сервера
+server:
+  port: 8080
+
+# Режим отладки
+debug: true
+
+spring:
+  # Application
+  application:
+    name: user-service
+  profiles:
+    active: local
+  # DB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/human_resources
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  # JPA
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+    hibernate:
+      ddl-auto: create-drop
+
+#Keycloak
+keycloak:
+  auth-server-url: http://localhost:8081/auth
+  realm: Demo-Realm
+  resource: springboot-microservice
+  credentials:
+    secret: 3e8db72b-7b8f-43dd-8a30-e6c5e8a9f5d9
+  bearer-only: true
+  use-resource-role-mappings: true
+  ssl-required: external
+
+user:
+  service:
+    ip: 192.168.1.35
+
+token:
+  expiration_time: 864000000 # 10 days
+  secret: hfgry479fhfbnjkfu4834834hfjf843j

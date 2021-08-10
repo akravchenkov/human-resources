@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "keycloak.auth-server-utl",
+      "type": "java.lang.String",
+      "description": "Description for keycloak.auth-server-utl."
+    },
+    {
+      "name": "token.expiration_time",
+      "type": "java.lang.String",
+      "description": "Description for token.expiration_time."
+    }
+  ] }
