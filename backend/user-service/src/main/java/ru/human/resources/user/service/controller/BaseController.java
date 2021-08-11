@@ -4,12 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import ru.human.resources.common.data.UserDto;
 import ru.human.resources.common.data.exception.HumanResourcesErrorCode;
 import ru.human.resources.common.data.exception.HumanResourcesException;
 import ru.human.resources.common.data.page.PageLink;
 import ru.human.resources.common.data.page.SortOrder;
 
 import java.util.Locale;
+import ru.human.resources.dao.model.sql.UserEntity;
 import ru.human.resources.user.service.service.security.model.SecurityUser;
 
 /**
@@ -76,10 +79,11 @@ public abstract class BaseController {
 
     }
 
-    protected SecurityUser getCurrentUser() throws HumanResourcesException {
+    protected User getCurrentUser() throws HumanResourcesException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof SecurityUser) {
-            return (SecurityUser) authentication.getPrincipal();
+        System.out.println(authentication.getPrincipal().getClass().getName());
+        if (authentication != null) {
+            return (User) authentication.getPrincipal();
         } else {
             throw new HumanResourcesException("You aren't authorizednto perform this operation",
                 HumanResourcesErrorCode.AUTHENTICATION);

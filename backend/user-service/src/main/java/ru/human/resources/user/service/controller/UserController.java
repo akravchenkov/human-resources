@@ -1,8 +1,12 @@
 package ru.human.resources.user.service.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
+import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -27,6 +31,7 @@ import ru.human.resources.common.data.model.request.UserRequest;
 import ru.human.resources.common.data.model.response.UserResponse;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
+import ru.human.resources.dao.model.ToData;
 
 
 /**
@@ -49,21 +54,33 @@ public class UserController extends BaseController {
         return "Working on port " + environment.getProperty("local.server.port");
     }
 
-    @PreAuthorize("hasAuthority('SYS_ADMIN')")
     @RequestMapping(value = "/users", params = {"pageSize", "page"}, method = RequestMethod.GET)
     @ResponseBody
-    public PageData<UserDto> getUsers(
+    public PageData<UserResponse> getUsers(
         @RequestParam int pageSize,
         @RequestParam int page,
         @RequestParam(required = false) String textSearch,
         @RequestParam(required = false) String sortProperty,
-        @RequestParam(required = false) String sortOrder,
-        Principal principal
+        @RequestParam(required = false) String sortOrder
     ) throws HumanResourcesException {
         try {
-            System.out.println("Name user : " + principal.getName());
+            val currentUser = getCurrentUser();
+            System.out.println(currentUser.toString());
             PageLink pageLink = createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);
-            return checkNotNull(userService.findAll(pageLink));
+            val data = checkNotNull(userService.findAll(pageLink));
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            List<UserResponse> list = Collections.emptyList();
+            if (data.getData() != null && !data.getData().isEmpty()) {
+                list = new ArrayList<>();
+                for (UserDto dto : data.getData()) {
+                    if (dto != null) {
+                        list.add(modelMapper.map(dto, UserResponse.class));
+                    }
+                }
+            }
+            return new PageData<>(list, data.getTotalPages(), data.getTotalElements(),
+                data.hasNext());
         } catch (Exception e) {
             throw handleException(e);
         }

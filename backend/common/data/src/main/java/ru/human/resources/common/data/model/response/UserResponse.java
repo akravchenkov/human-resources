@@ -1,6 +1,7 @@
 package ru.human.resources.common.data.model.response;
 
 import lombok.Data;
+import ru.human.resources.common.data.security.Authority;
 
 /**
  * @author Anton Kravchenkov
@@ -12,4 +13,5 @@ public class UserResponse {
     private String lastName;
     private String email;
     private String userId;
+    private Authority authority;
 }
