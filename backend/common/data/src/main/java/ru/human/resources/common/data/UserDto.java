@@ -2,6 +2,7 @@ package ru.human.resources.common.data;
 
 import java.io.Serializable;
 import lombok.Data;
+import ru.human.resources.common.data.security.Authority;
 
 /**
  * @author Anton Kravchenkov
@@ -17,6 +18,7 @@ public class UserDto implements Serializable {
     private String firstName;
     private String lastName;
     private String password;
+    private Authority authority;
 
     public UserDto() {
     }

@@ -1,8 +1,11 @@
 package ru.human.resources.dao.model.sql;
 
 import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
 import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.security.Authority;
 import ru.human.resources.dao.model.BaseSqlEntity;
 import ru.human.resources.dao.model.ModelConstants;
 
@@ -36,6 +39,10 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
     @Column(nullable = false, unique = true)
     private String encryptedPassword;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = ModelConstants.USER_AUTHORITY_PROPERTY)
+    private Authority authority;
+
     public UserEntity() {
     }
 
@@ -45,6 +52,7 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.encryptedPassword = user.getPassword();
+        this.authority = user.getAuthority();
     }
 
     public String getEmail() {
@@ -87,6 +95,14 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
         this.encryptedPassword = encryptedPassword;
     }
 
+    public Authority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authority authority) {
+        this.authority = authority;
+    }
+
     /**
      * This method convert domain object to data transfer object.
      *
@@ -100,6 +116,7 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setPassword(encryptedPassword);
+        user.setAuthority(authority);
         return user;
     }
 }

@@ -15,5 +15,6 @@ public class ModelConstants {
     public static final String USER_EMAIL_PROPERTY = "email";
     public static final String USER_FIRST_NAME_PROPERTY = "first_name";
     public static final String USER_LAST_NAME_PROPERTY = "last_name";
+    public static final String USER_AUTHORITY_PROPERTY = "authority";
 
 }

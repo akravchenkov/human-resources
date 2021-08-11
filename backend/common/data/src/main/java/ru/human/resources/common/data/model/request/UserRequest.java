@@ -1,6 +1,7 @@
 package ru.human.resources.common.data.model.request;
 
 import lombok.Data;
+import ru.human.resources.common.data.security.Authority;
 
 /**
  * @author Anton Kravchenkov
@@ -13,4 +14,5 @@ public class UserRequest {
     private String lastName;
     private String password;
     private String email;
+    private Authority authority;
 }
