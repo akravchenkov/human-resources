@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @ComponentScan({
         "ru.human.resources.user.service.controller",
         "ru.human.resources.user.service.security",
+        "ru.human.resources.user.service.utils",
         "ru.human.resources.common",
         "ru.human.resources.dao"
 })
