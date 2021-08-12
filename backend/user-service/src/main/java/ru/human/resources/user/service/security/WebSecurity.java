@@ -29,6 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
             .authorizeRequests()
+            .antMatchers("/api/vi/user/login").permitAll()
             .antMatchers("/api/vi/users/**")
             .hasIpAddress(environment.getProperty("user.service.ip"))
             .and()
