@@ -8,7 +8,7 @@ public enum Authority {
 
     SYS_ADMIN(0),
     EMPLOYEE_USER(1),
-    HR_USER(2),
+    EMPLOYEE_ADMIN(3),
     REFRESH_TOKEN(10);
 
     private final int code;

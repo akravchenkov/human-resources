@@ -3,7 +3,7 @@ package ru.human.resources.user.service.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.Assert;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 
 /**
  * @author Anton Kravchenkov
@@ -15,11 +15,11 @@ public abstract class BaseUserControllerTest extends AbstractControllerTest {
     @Test
     public void testSaveUser() throws Exception {
         String email = "test1@human-resources.ru";
-        UserDto user = new UserDto();
+        User user = new User();
         user.setEmail(email);
         user.setFirstName("Ivan");
         user.setLastName("Ivanov");
-        UserDto saveUser = doPost("/api/v1/user", user, UserDto.class);
+        User saveUser = doPost("/api/v1/user", user, User.class);
         Assert.assertNotNull(saveUser);
         Assert.assertNotNull(saveUser.getUserId());
         Assert.assertEquals(user.getEmail(), saveUser.getEmail());
@@ -28,12 +28,12 @@ public abstract class BaseUserControllerTest extends AbstractControllerTest {
     @Test
     public void testFindUserById() throws Exception {
         String email = "test2@human-resources.ru";
-        UserDto user = new UserDto();
+        User user = new User();
         user.setEmail(email);
         user.setFirstName("Ivan");
         user.setLastName("Ivanov");
-        UserDto saveUser = doPost("/api/v1/user", user, UserDto.class);
-        UserDto foundUser = doGet("/api/v1/user/" + saveUser.getUserId().toString(), UserDto.class);
+        User saveUser = doPost("/api/v1/user", user, User.class);
+        User foundUser = doGet("/api/v1/user/" + saveUser.getUserId().toString(), User.class);
         Assert.assertNotNull(foundUser);
         Assert.assertEquals(saveUser, foundUser);
     }

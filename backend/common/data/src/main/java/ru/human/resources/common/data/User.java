@@ -9,21 +9,22 @@ import ru.human.resources.common.data.security.Authority;
  * @since 06.08.2021
  */
 @Data
-public class UserDto implements Serializable {
+public class User implements Serializable {
 
     private static final long serialVersionUID = -445515076557193596L;
 
     private String userId;
+    private String employeeId;
     private String email;
     private String firstName;
     private String lastName;
     private String password;
     private Authority authority;
 
-    public UserDto() {
+    public User() {
     }
 
-    public UserDto(String userId, String email, String firstName, String lastName,
+    public User(String userId, String email, String firstName, String lastName,
         String password) {
         this.userId = userId;
         this.email = email;

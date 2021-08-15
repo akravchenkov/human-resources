@@ -18,10 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.human.resources.common.dao.api.UserService;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.model.request.LoginRequest;
 
 /**
@@ -69,8 +68,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         FilterChain chain,
         Authentication authResult
     ) throws IOException, ServletException {
-        String userName = ((User) authResult.getPrincipal()).getUsername();
-        UserDto userDetails = userService.getUserDetailsByUserName(userName);
+        String userName = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername();
+        User userDetails = userService.getUserDetailsByUserName(userName);
         String token = Jwts.builder()
             .setSubject(userDetails.getUserId())
             .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(

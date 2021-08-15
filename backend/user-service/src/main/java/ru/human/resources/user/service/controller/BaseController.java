@@ -5,15 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import ru.human.resources.common.data.UserDto;
 import ru.human.resources.common.data.exception.HumanResourcesErrorCode;
 import ru.human.resources.common.data.exception.HumanResourcesException;
 import ru.human.resources.common.data.page.PageLink;
 import ru.human.resources.common.data.page.SortOrder;
 
 import java.util.Locale;
-import ru.human.resources.dao.model.sql.UserEntity;
-import ru.human.resources.user.service.service.security.model.SecurityUser;
 
 /**
  * @author Anton Kravchenkov

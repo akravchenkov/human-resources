@@ -1,7 +1,7 @@
 package ru.human.resources.common.dao.api;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
 
@@ -11,12 +11,12 @@ import ru.human.resources.common.data.page.PageLink;
  */
 public interface UserService extends UserDetailsService {
 
-    UserDto saveUser(UserDto user);
+    User saveUser(User user);
 
-    UserDto findUserById(Long userId);
+    User findUserById(Long userId);
 
-    PageData<UserDto> findAll(PageLink pageLink);
+    PageData<User> findAll(PageLink pageLink);
 
-    UserDto getUserDetailsByUserName(String email);
+    User getUserDetailsByUserName(String email);
 
 }

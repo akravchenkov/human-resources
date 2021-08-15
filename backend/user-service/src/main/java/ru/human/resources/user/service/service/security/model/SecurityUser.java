@@ -3,16 +3,15 @@ package ru.human.resources.user.service.service.security.model;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 
 /**
  * @author Anton Kravchenkov
  * @since 10.08.2021
  */
-public class SecurityUser extends UserDto {
+public class SecurityUser extends User {
 
     private static final long serialVersionUID = -3477731280183033228L;
 
