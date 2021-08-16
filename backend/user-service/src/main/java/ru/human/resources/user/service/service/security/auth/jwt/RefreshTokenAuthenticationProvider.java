@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import ru.human.resources.user.service.service.security.auth.RefreshAuthenticationToken;
 import ru.human.resources.user.service.service.security.model.SecurityUser;
+import ru.human.resources.user.service.service.security.model.UserPrincipal;
+import ru.human.resources.user.service.service.security.model.UserPrincipal.Type;
+import ru.human.resources.user.service.service.security.model.token.JwtTokenFactory;
 import ru.human.resources.user.service.service.security.model.token.RawAccessJwtToken;
 
 /**
@@ -18,6 +21,8 @@ import ru.human.resources.user.service.service.security.model.token.RawAccessJwt
 @RequiredArgsConstructor
 public class RefreshTokenAuthenticationProvider implements AuthenticationProvider {
 
+    private final JwtTokenFactory tokenFactory;
+
     @Override
     public Authentication authenticate(Authentication authentication)
         throws AuthenticationException {
@@ -25,12 +30,25 @@ public class RefreshTokenAuthenticationProvider implements AuthenticationProvide
         System.out.println("It is work method authenticate!");
 
         RawAccessJwtToken rawAccessJwtToken = (RawAccessJwtToken) authentication.getCredentials();
-        SecurityUser unsafeUser = tokenFactory.parseRefreshToken(rawAccessTokeb);
-        return null;
+        SecurityUser unsafeUser = tokenFactory.parseAccessJwtToken(rawAccessJwtToken);
+        UserPrincipal principal = unsafeUser.getUserPrincipal();
+
+        SecurityUser securityUser;
+        if (principal.getType() == Type.USER_NAME) {
+            securityUser = authenticateByUserid(unsafeUser.getId());
+        } else {
+            securityUser = new SecurityUser();
+        }
+        return new RefreshAuthenticationToken(securityUser);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
         return (RefreshAuthenticationToken.class.isAssignableFrom(authentication));
+    }
+
+    // TODO create this method
+    private SecurityUser authenticateByUserid(Long id) {
+        return null;
     }
 }

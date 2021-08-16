@@ -19,6 +19,13 @@ public class SecurityUser extends User {
     private boolean enabled;
     private UserPrincipal userPrincipal;
 
+    public SecurityUser() {
+    }
+
+    public SecurityUser(Long id) {
+        super(id);
+    }
+
     public Collection<GrantedAuthority> getAuthorities() {
         if (authorities == null) {
             authorities = Stream.of(SecurityUser.this.getAuthority())

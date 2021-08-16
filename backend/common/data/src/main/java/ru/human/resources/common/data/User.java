@@ -13,6 +13,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -445515076557193596L;
 
+    private Long id;
     private String userId;
     private String employeeId;
     private String email;
@@ -22,6 +23,10 @@ public class User implements Serializable {
     private Authority authority;
 
     public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     public User(String userId, String email, String firstName, String lastName,
