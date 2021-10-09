@@ -26,6 +26,12 @@ public class SecurityUser extends User {
         super(id);
     }
 
+    public SecurityUser(User user, boolean enabled, UserPrincipal userPrincipal) {
+        super(user);
+        this.enabled = enabled;
+        this.userPrincipal = userPrincipal;
+    }
+
     public Collection<GrantedAuthority> getAuthorities() {
         if (authorities == null) {
             authorities = Stream.of(SecurityUser.this.getAuthority())

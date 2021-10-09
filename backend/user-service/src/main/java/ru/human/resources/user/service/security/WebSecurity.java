@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.user.service.security.auth.RestAuthenticationProvider;
 import ru.human.resources.user.service.service.security.auth.jwt.RefreshTokenAuthenticationProvider;
 
 /**
@@ -26,6 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RefreshTokenAuthenticationProvider refreshTokenAuthenticationProvider;
+    private final RestAuthenticationProvider restAuthenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -48,7 +50,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(restAuthenticationProvider);
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-        auth.authenticationProvider(refreshTokenAuthenticationProvider);
     }
 }

@@ -21,6 +21,9 @@ public abstract class BaseSqlEntity<D> implements BaseEntity<D> {
     @Column(name = ModelConstants.ID_PROPERTY)
     private Long id;
 
+    @Column(name = ModelConstants.CREATED_TIME_PROPERTY)
+    protected long createdTime;
+
     @Override
     public Long getId() {
         return id;
@@ -29,5 +32,17 @@ public abstract class BaseSqlEntity<D> implements BaseEntity<D> {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public long getCreatedTime() {
+        return createdTime;
+    }
+
+    @Override
+    public void setCreatedTime(long createdTime) {
+        if (createdTime > 0) {
+            this.createdTime = createdTime;
+        }
     }
 }

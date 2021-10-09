@@ -1,7 +1,10 @@
 package ru.human.resources.common.data;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import ru.human.resources.common.data.security.Authority;
 
 /**
@@ -9,7 +12,8 @@ import ru.human.resources.common.data.security.Authority;
  * @since 06.08.2021
  */
 @Data
-public class User implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class User extends SearchTextBasedWithAdditionalInfo implements HasName {
 
     private static final long serialVersionUID = -445515076557193596L;
 
@@ -29,6 +33,16 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public User(User user) {
+        this.id = user.getId();
+        this.userId = user.getUserId();
+        this.employeeId = user.getEmployeeId();
+        this.email = user.getEmail();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.authority = user.getAuthority();
+    }
+
     public User(String userId, String email, String firstName, String lastName,
         String password) {
         this.userId = userId;
@@ -36,5 +50,11 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+    }
+
+    @Override
+    @JsonProperty(access = Access.READ_ONLY)
+    public String getName() {
+        return email;
     }
 }

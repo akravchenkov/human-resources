@@ -38,10 +38,6 @@ public abstract class BaseController {
         }
     }
 
-//    protected SecurityUser getCurrentUser() {
-//        return (SecurityUser) new User(1L, "test@human-resources.ru", "Ivan", "Ivanov");
-//    }
-
     <T> T checkNotNull(T reference) throws HumanResourcesException {
         if (reference == null) {
             throw new HumanResourcesException("Request item wasn't found!",

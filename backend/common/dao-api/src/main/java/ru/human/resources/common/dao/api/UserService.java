@@ -4,6 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
+import ru.human.resources.common.data.security.UserCredentials;
 
 /**
  * @author Anton Kravchenkov
@@ -17,6 +18,10 @@ public interface UserService extends UserDetailsService {
 
     PageData<User> findAll(PageLink pageLink);
 
-    User getUserDetailsByUserName(String email);
+    User findUserByEmail(String email);
+
+    UserCredentials findUserCredentialsById(Long id);
+
+    void onUserLoginSuccessful(Long id);
 
 }
