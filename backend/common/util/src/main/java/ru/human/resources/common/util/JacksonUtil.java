@@ -1,7 +1,10 @@
 package ru.human.resources.common.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 
 /**
  * @author Anton Kravchenkov
@@ -15,4 +18,38 @@ public class JacksonUtil {
         return OBJECT_MAPPER.createObjectNode();
     }
 
+    public static <T> T fromString(String string, Class<T> clazz) {
+        try {
+            return string != null ? OBJECT_MAPPER.readValue(string, clazz) : null;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("The given string value: "
+                + string + " cannot be transformed to Json object", e);
+        }
+    }
+
+    public static <T> T clone(T value) {
+        @SuppressWarnings("unchecked")
+        Class<T> valueClass = (Class<T>) value.getClass();
+        return fromString(toString(value), valueClass);
+    }
+
+    public static String toString(Object value) {
+        try {
+            return value != null ? OBJECT_MAPPER.writeValueAsString(value) : null;
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException("The given Json object value: "
+                + value + " cannot be transformed to String", e);
+        }
+    }
+
+    public static JsonNode toJsonNode(String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readTree(value);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }

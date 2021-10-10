@@ -20,14 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.common.data.exception.HumanResourcesException;
 import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.model.request.UserRequest;
 import ru.human.resources.common.data.model.response.UserResponse;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
-import ru.human.resources.common.data.security.Authority;
 
 
 /**

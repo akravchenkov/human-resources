@@ -17,7 +17,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.common.data.User;
 import ru.human.resources.user.service.service.security.auth.JwtAuthenticationToken;
 import ru.human.resources.user.service.service.security.auth.jwt.extractor.TokenExtractor;

@@ -1,4 +1,4 @@
-package ru.human.resources.common.dao.api;
+package ru.human.resources.common.dao.api.user;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.human.resources.common.data.User;
@@ -23,5 +23,7 @@ public interface UserService extends UserDetailsService {
     UserCredentials findUserCredentialsById(Long id);
 
     void onUserLoginSuccessful(Long id);
+
+    int onUserLoginIncorrectCredentials(Long id);
 
 }

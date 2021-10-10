@@ -19,7 +19,7 @@ public abstract class BaseSqlEntity<D> implements BaseEntity<D> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = ModelConstants.ID_PROPERTY)
-    private Long id;
+    public Long id;
 
     @Column(name = ModelConstants.CREATED_TIME_PROPERTY)
     protected long createdTime;

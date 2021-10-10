@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.common.data.User;
 import ru.human.resources.user.service.service.security.auth.RefreshAuthenticationToken;
 import ru.human.resources.user.service.service.security.auth.TokenOutdatingService;

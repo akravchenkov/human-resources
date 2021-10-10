@@ -30,4 +30,11 @@ public class ModelConstants {
     public static final String USER_CREDENTIALS_ACTIVATE_TOKEN_PROPERTY = "activate_token";
     public static final String USER_CREDENTIALS_RESET_TOKEN_PROPERTY = "reset_token";
 
+    /**
+     * admin_settings constants.
+     */
+    public static final String ADMIN_SETTINGS_COLUMN_FAMILY_NAME = "admin_settings";
+    public static final String ADMIN_SETTINGS_KEY_PROPERTY = "key";
+    public static final String ADMIN_SETTINGS_JSON_VALUE_PROPERTY = "json_value";
+
 }

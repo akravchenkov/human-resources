@@ -4,16 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import ru.human.resources.common.dao.api.UserService;
-import ru.human.resources.common.data.User;
-import ru.human.resources.common.data.security.UserCredentials;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.user.service.service.security.model.UserPrincipal;
-import ru.human.resources.user.service.service.security.model.UserPrincipal.Type;
+import ru.human.resources.user.service.service.security.system.SystemSecurityService;
 
 /**
  * @author Anton Kravchenkov
@@ -24,6 +23,7 @@ import ru.human.resources.user.service.service.security.model.UserPrincipal.Type
 public class RestAuthenticationProvider implements AuthenticationProvider {
 
     private final UserService userService;
+    private final SystemSecurityService systemSecurityService;
 
     @Override
     public Authentication authenticate(Authentication authentication)
@@ -57,7 +57,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         final UserPrincipal userPrincipal,
         final String username,
         final String password
-        ) {
+    ) {
         val user = userService.findUserByEmail(username);
 
         if (user == null) {
@@ -70,7 +70,12 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
                 throw new UsernameNotFoundException("User credentials not found");
             }
 
-
+            try {
+                systemSecurityService
+                    .validateUserCredentials(user.getId(), userCredentials, username, password);
+            } catch (LockedException e) {
+                throw e;
+            }
 
         } catch (Exception e) {
             throw e;

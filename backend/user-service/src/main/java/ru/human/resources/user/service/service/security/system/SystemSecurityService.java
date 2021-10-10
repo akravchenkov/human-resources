@@ -1,6 +1,7 @@
 package ru.human.resources.user.service.service.security.system;
 
 import ru.human.resources.common.data.security.UserCredentials;
+import ru.human.resources.common.data.security.model.SecuritySettings;
 
 /**
  * @author Anton Kravchenkov
@@ -8,6 +9,8 @@ import ru.human.resources.common.data.security.UserCredentials;
  */
 public interface SystemSecurityService {
 
-    void validateUserCredentials(UserCredentials userCredentials, String username, String password);
+    void validateUserCredentials(Long id, UserCredentials userCredentials, String username, String password);
+
+    SecuritySettings getSecuritySettings(Long id);
 
 }

@@ -20,4 +20,17 @@ public class Validator {
             throw new IncorrectParameterException(errorMessage);
         }
     }
+
+    /**
+     * This method validate <code>String</code> string. If string is invalid then throw
+     * <code>IncorrectParameterException</code> exception
+     *
+     * @param val           the val
+     * @param errorMessage  the error message for exception
+     */
+    public static void validateString(String val, String errorMessage) {
+        if (val == null || val.isEmpty()) {
+            throw new IncorrectParameterException(errorMessage);
+        }
+    }
 }

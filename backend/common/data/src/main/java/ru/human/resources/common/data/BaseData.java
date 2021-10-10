@@ -12,5 +12,6 @@ public abstract class BaseData implements Serializable {
 
     private static final long serialVersionUID = -2732635732137855551L;
 
+    protected Long id;
     protected long createdTime;
 }

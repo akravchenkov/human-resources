@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
     public static final String INCORRECT_USER_ID = "Incorrect user id ";
 
     private static final String LAST_LOGIN_TS = "lastLoginTs";
+    private static final String FAILED_LOGIN_ATTEMPTS = "failedLoginAttempts";
 
     private final UserDao userDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -88,7 +89,17 @@ public class UserServiceImpl implements UserService {
         log.trace("Executing onUserLoginSuccessful [{}]", id);
         val user = findUserById(id);
         setLastLoginTs(user);
+        resetFailedLoginAttempts(user);
         saveUser(user);
+    }
+
+    @Override
+    public int onUserLoginIncorrectCredentials(Long id) {
+        log.trace("Executing onUserLoginIncorrectCredentials [{}]", id);
+        val user = findUserById(id);
+        val failedLoginAttempts = increaseFailedLoginAttempts(user);
+        saveUser(user);
+        return failedLoginAttempts;
     }
 
     private void setLastLoginTs(User user) {
@@ -100,4 +111,27 @@ public class UserServiceImpl implements UserService {
         user.setAdditionalInfo(additionalInfo);
     }
 
+    private void resetFailedLoginAttempts(User user) {
+        JsonNode additionalInfo = user.getAdditionalInfo();
+        if (!(additionalInfo instanceof ObjectNode)) {
+            additionalInfo = JacksonUtil.newObjectNode();
+        }
+        ((ObjectNode) additionalInfo).put(FAILED_LOGIN_ATTEMPTS, 0);
+        user.setAdditionalInfo(additionalInfo);
+    }
+
+    private int increaseFailedLoginAttempts(User user) {
+        JsonNode additionalInfo = user.getAdditionalInfo();
+        if (!(additionalInfo instanceof ObjectNode)) {
+            additionalInfo = JacksonUtil.newObjectNode();
+        }
+        int failedLoginAttempts = 0;
+        if (additionalInfo.has(FAILED_LOGIN_ATTEMPTS)) {
+            failedLoginAttempts = additionalInfo.get(FAILED_LOGIN_ATTEMPTS).asInt();
+        }
+        failedLoginAttempts = failedLoginAttempts + 1;
+        ((ObjectNode) additionalInfo).put(FAILED_LOGIN_ATTEMPTS, failedLoginAttempts);
+        user.setAdditionalInfo(additionalInfo);
+        return failedLoginAttempts;
+    }
 }
