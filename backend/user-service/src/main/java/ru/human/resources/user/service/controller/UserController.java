@@ -27,7 +27,7 @@ import ru.human.resources.common.data.model.request.UserRequest;
 import ru.human.resources.common.data.model.response.UserResponse;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
-
+import ru.human.resources.user.service.utils.convertor.UserConvertor;
 
 /**
  * @author Anton Kravchenkov
@@ -42,6 +42,7 @@ public class UserController extends BaseController {
     private static final String USER_ID = "userId";
 
     private final UserService userService;
+    private final UserConvertor userConvertor;
     private Environment environment;
 
     @GetMapping("/users/status/check")
@@ -61,7 +62,7 @@ public class UserController extends BaseController {
         try {
             val currentUser = getCurrentUser();
             System.out.println(currentUser.toString());
-            PageLink pageLink = createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);
+            val pageLink = createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);
             val data = checkNotNull(userService.findAll(pageLink));
             ModelMapper modelMapper = new ModelMapper();
             modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
