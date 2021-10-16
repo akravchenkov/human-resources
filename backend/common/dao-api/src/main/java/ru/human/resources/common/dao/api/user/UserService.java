@@ -26,4 +26,9 @@ public interface UserService extends UserDetailsService {
 
     int onUserLoginIncorrectCredentials(Long id);
 
+    void setUserCredentialsEnabled(Long id, boolean enabled);
+
+    UserCredentials saveUserCredentials(Long id, UserCredentials userCredentials);
+
+    UserCredentials requestExpiredPasswordReset(Long id);
 }

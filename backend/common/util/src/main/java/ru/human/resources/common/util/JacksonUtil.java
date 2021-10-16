@@ -1,6 +1,7 @@
 package ru.human.resources.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -51,5 +52,26 @@ public class JacksonUtil {
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    public static <T> T convertValue(Object fromValue, Class<T> toValueType) {
+        try {
+            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueType) : null;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The given object value: " + fromValue + " cannot be converted to " + toValueType, e);
+        }
+    }
+
+    public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
+        try {
+            return fromValue != null ? OBJECT_MAPPER.convertValue(fromValue, toValueTypeRef) : null;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The given object value: "
+            + fromValue + " cannot be converted to " + toValueTypeRef, e);
+        }
+    }
+
+    public static <T> JsonNode valueToTree(T value) {
+        return OBJECT_MAPPER.valueToTree(value);
     }
 }

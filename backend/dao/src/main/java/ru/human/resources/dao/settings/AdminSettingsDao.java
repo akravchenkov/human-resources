@@ -9,6 +9,6 @@ import ru.human.resources.dao.Dao;
  */
 public interface AdminSettingsDao extends Dao<AdminSettings> {
 
-    AdminSettings findByKey(Long id, String key);
+    AdminSettings findByKey(String key);
 
 }

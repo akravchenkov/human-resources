@@ -44,6 +44,6 @@ public final class AdminSettingsEntity extends BaseSqlEntity<AdminSettings> impl
         adminSettings.setKey(key);
         adminSettings.setCreatedTime(createdTime);
         adminSettings.setJsonValue(jsonValue);
-        return null;
+        return adminSettings;
     }
 }

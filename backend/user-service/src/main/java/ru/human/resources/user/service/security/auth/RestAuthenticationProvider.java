@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import ru.human.resources.common.dao.api.user.UserService;
+import ru.human.resources.user.service.service.security.model.SecurityUser;
 import ru.human.resources.user.service.service.security.model.UserPrincipal;
 import ru.human.resources.user.service.service.security.system.SystemSecurityService;
 
@@ -77,7 +80,15 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
                 throw e;
             }
 
+            if (user.getAuthority() == null) {
+                throw new InsufficientAuthenticationException("User has no authority assigned");
+            }
+
+            SecurityUser securityUser = new SecurityUser(user, userCredentials.isEnabled(), userPrincipal);
+            // TODO Add an entry to the log
+            return new UsernamePasswordAuthenticationToken(securityUser, null, securityUser.getAuthorities());
         } catch (Exception e) {
+            // TODO Add an entry ti the log
             throw e;
         }
     }

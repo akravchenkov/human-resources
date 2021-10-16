@@ -22,6 +22,6 @@ public class AdminSettingsServiceImpl implements AdminSettingsService {
     public AdminSettings findAdminSettingsByKey(Long id, String key) {
         log.trace("Executing findAdminSettingsByKey [{}]", key);
         Validator.validateString(key, "Incorrect key " + key);
-        return adminSettingsDao.findByKey(id, key);
+        return adminSettingsDao.findByKey(key);
     }
 }
