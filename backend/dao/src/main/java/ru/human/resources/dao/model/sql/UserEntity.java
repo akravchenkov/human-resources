@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import lombok.EqualsAndHashCode;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.security.Authority;
 import ru.human.resources.dao.model.BaseSqlEntity;
 import ru.human.resources.dao.model.ModelConstants;
@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name = ModelConstants.USER_NAME_TABLE)
-public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
+public class UserEntity extends BaseSqlEntity<User> implements Serializable {
 
     private static final long serialVersionUID = -5272528517758260238L;
 
@@ -46,7 +46,7 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(UserDto user) {
+    public UserEntity(User user) {
         this.userId = user.getUserId();
         this.email = user.getEmail();
         this.firstName = user.getFirstName();
@@ -109,8 +109,8 @@ public class UserEntity extends BaseSqlEntity<UserDto> implements Serializable {
      * @return the dto object
      */
     @Override
-    public UserDto toData() {
-        UserDto user = new UserDto();
+    public User toData() {
+        User user = new User();
         user.setUserId(userId);
         user.setEmail(email);
         user.setFirstName(firstName);

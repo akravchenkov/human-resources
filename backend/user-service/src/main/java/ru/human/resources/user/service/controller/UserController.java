@@ -1,5 +1,8 @@
 package ru.human.resources.user.service.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.val;
 import org.modelmapper.ModelMapper;
@@ -17,15 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.human.resources.common.dao.api.UserService;
+import ru.human.resources.common.dao.api.user.UserService;
 import ru.human.resources.common.data.exception.HumanResourcesException;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.model.request.UserRequest;
 import ru.human.resources.common.data.model.response.UserResponse;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
 import ru.human.resources.user.service.utils.convertor.UserConvertor;
-
 
 /**
  * @author Anton Kravchenkov
@@ -62,7 +64,19 @@ public class UserController extends BaseController {
             System.out.println(currentUser.toString());
             val pageLink = createPageLink(pageSize, page, textSearch, sortProperty, sortOrder);
             val data = checkNotNull(userService.findAll(pageLink));
-            return userConvertor.convertToPageData(data);
+            ModelMapper modelMapper = new ModelMapper();
+            modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+            List<UserResponse> list = Collections.emptyList();
+            if (data.getData() != null && !data.getData().isEmpty()) {
+                list = new ArrayList<>();
+                for (User dto : data.getData()) {
+                    if (dto != null) {
+                        list.add(modelMapper.map(dto, UserResponse.class));
+                    }
+                }
+            }
+            return new PageData<>(list, data.getTotalPages(), data.getTotalElements(),
+                data.hasNext());
         } catch (Exception e) {
             throw handleException(e);
         }
@@ -70,7 +84,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/user/{userId}", method = RequestMethod.GET)
     @ResponseBody
-    public UserDto findUserById(final @PathVariable(USER_ID) Long userId) {
+    public User findUserById(@PathVariable(USER_ID) Long userId) {
         return userService.findUserById(userId);
     }
 
@@ -81,10 +95,15 @@ public class UserController extends BaseController {
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
     )
     @ResponseBody
-    public ResponseEntity<UserResponse> createUser(final @RequestBody UserRequest userDetails) {
-        val userDto = userConvertor.convertToDto(userDetails);
-        val createdUser = userService.saveUser(userDto);
-        val userResponse = userConvertor.convertToResponse(createdUser);
+    public ResponseEntity<UserResponse> saveUser(@RequestBody UserRequest userDetails) {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        User user = modelMapper.map(userDetails, User.class);
+//        if (Authority.EMPLOYEE_ADMIN.equals(getCurrentUser().getAuthority())) {
+//            user.setEmployeeId(getCurrentUser().getEmployeeId);
+//        }
+        User createdUser = userService.saveUser(user);
+        UserResponse userResponse = modelMapper.map(createdUser, UserResponse.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 }

@@ -11,6 +11,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,11 +19,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.human.resources.common.dao.api.UserService;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.dao.api.user.UserService;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.model.request.LoginRequest;
+import ru.human.resources.user.service.service.security.auth.jwt.extractor.TokenExtractor;
 
 /**
  * @author Anton Kravchenkov
@@ -33,11 +34,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final UserService userService;
     private final Environment environment;
 
+    @Autowired
+    private TokenExtractor tokenExtractor;
+
     public AuthenticationFilter(
         UserService userService,
         Environment environment,
-        AuthenticationManager authenticationManager
-    ) {
+        AuthenticationManager authenticationManager) {
         super(authenticationManager);
         this.userService = userService;
         this.environment = environment;
@@ -46,6 +49,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
         HttpServletResponse response) throws AuthenticationException {
+//        RawAccessJwtToken token = new RawAccessJwtToken(tokenExtractor.extractor(request));
+//        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(token));
         try {
             LoginRequest creds = new ObjectMapper()
                 .readValue(request.getInputStream(), LoginRequest.class);
@@ -69,8 +74,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         FilterChain chain,
         Authentication authResult
     ) throws IOException, ServletException {
-        String userName = ((User) authResult.getPrincipal()).getUsername();
-        UserDto userDetails = userService.getUserDetailsByUserName(userName);
+        String userName = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername();
+        User userDetails = userService.findUserByEmail(userName);
         String token = Jwts.builder()
             .setSubject(userDetails.getUserId())
             .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(
