@@ -1,7 +1,7 @@
 package ru.human.resources.user.service.utils.convertor;
 
 import org.springframework.stereotype.Component;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.model.request.UserRequest;
 import ru.human.resources.common.data.model.response.UserResponse;
 
@@ -10,7 +10,7 @@ import ru.human.resources.common.data.model.response.UserResponse;
  * @since 12.08.2021
  */
 @Component
-public class UserConvertor extends Convertor<UserResponse, UserRequest, UserDto> {
+public class UserConvertor extends Convertor<UserResponse, UserRequest, User> {
 
     @Override
     protected Class<UserResponse> getClassResponse() {
@@ -18,7 +18,7 @@ public class UserConvertor extends Convertor<UserResponse, UserRequest, UserDto>
     }
 
     @Override
-    protected Class<UserDto> getClassDto() {
-        return UserDto.class;
+    protected Class<User> getClassDto() {
+        return User.class;
     }
 }

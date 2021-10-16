@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
     "ru.human.resources.user.service.security",
     "ru.human.resources.user.service.service",
     "ru.human.resources.user.service.config",
+    "ru.human.resources.user.service.utils",
     "ru.human.resources.common",
     "ru.human.resources.dao"
 })
