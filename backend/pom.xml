@@ -33,6 +33,10 @@
         <keycloak-adapter-bom.version>15.0.0</keycloak-adapter-bom.version>
         <modelmapper.version>2.4.4</modelmapper.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+        <util.version>0.0.1-SNAPSHOT</util.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>
+        <antisamy.version>1.4</antisamy.version>
     </properties>
 
     <dependencyManagement>
@@ -41,6 +45,12 @@
                 <groupId>ru.human.resources.common</groupId>
                 <artifactId>data</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.human.resources</groupId>
+                <artifactId>util</artifactId>
+                <version>${util.version}</version>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>ru.human.resources.common</groupId>
@@ -104,6 +114,21 @@
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.owasp</groupId>
+                <artifactId>antisamy</artifactId>
+                <version>${antisamy.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>

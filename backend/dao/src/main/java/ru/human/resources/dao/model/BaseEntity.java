@@ -10,4 +10,8 @@ public interface BaseEntity<D> extends ToData<D> {
 
     void setId(Long id);
 
+    long getCreatedTime();
+
+    void setCreatedTime(long createdTime);
+
 }

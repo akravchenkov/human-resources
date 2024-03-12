@@ -1,10 +1,9 @@
 package ru.human.resources.dao.sql.user;
 
-import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ru.human.resources.common.data.UserDto;
+import ru.human.resources.common.data.User;
 import ru.human.resources.common.data.page.PageData;
 import ru.human.resources.common.data.page.PageLink;
 import ru.human.resources.dao.DaoUtil;
@@ -17,7 +16,7 @@ import ru.human.resources.dao.user.UserDao;
  * @since 16.07.2021
  */
 @Component
-public class JpaUserDao extends JpaAbstractDao<UserEntity, UserDto> implements UserDao {
+public class JpaUserDao extends JpaAbstractDao<UserEntity, User> implements UserDao {
 
     private final UserRepository userRepository;
 
@@ -36,12 +35,12 @@ public class JpaUserDao extends JpaAbstractDao<UserEntity, UserDto> implements U
     }
 
     @Override
-    public PageData<UserDto> findAll(PageLink pageLink) {
+    public PageData<User> findAll(PageLink pageLink) {
         return DaoUtil.toPageData(userRepository.findAll(DaoUtil.toPageable(pageLink)));
     }
 
     @Override
-    public UserDto findByEmail(String username) {
+    public User findByEmail(String username) {
         UserEntity userEntity = userRepository.findByEmail(username);
         if (userEntity == null) throw new UsernameNotFoundException(username);
         return DaoUtil.getData(userEntity);
